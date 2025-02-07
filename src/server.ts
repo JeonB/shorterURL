@@ -12,10 +12,12 @@ interface ServerOptions {
 export class Server {
 	private readonly app = express()
 	private readonly port: number
+	private readonly apiPrefix: string
 
 	constructor(options: ServerOptions) {
-		const { port } = options
+		const { port, apiPrefix } = options
 		this.port = port
+		this.apiPrefix = apiPrefix
 	}
 
 	async start(): Promise<void> {
@@ -46,7 +48,7 @@ export class Server {
 			}
 		})
 
-		this.app.use('/url', urlRoutes)
+		this.app.use(`${this.apiPrefix}/url`, urlRoutes)
 		this.app.listen(this.port, () => {
 			console.log(`Server running on port ${this.port}...`)
 		})
